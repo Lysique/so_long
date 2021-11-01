@@ -6,7 +6,7 @@
 /*   By: tamighi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 12:23:46 by tamighi           #+#    #+#             */
-/*   Updated: 2021/11/01 10:23:37 by tamighi          ###   ########.fr       */
+/*   Updated: 2021/11/01 12:51:28 by tamighi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ void	ennemy_run(t_utils *utils)
 			update_ennemy_pose(utils, utils->ennemy[i], utils->sprites[7]);
 			check_if_follow(utils, utils->ennemy[i]);
 			utils->ennemy[i].sprite_loop++;
+			ennemy_breakpoint(utils, utils->ennemy[i].to, utils->to);
 			if (utils->ennemy[i].sprite_loop > 6)
 			{
 				utils->ennemy[i].sprite_loop = 0;
 				utils->ennemy[i].pos = utils->ennemy[i].to;
 				utils->ennemy_statut = 1;
 			}
-			ennemy_breakpoint(utils, utils->ennemy[i].to, utils->to);
 			i++;
 		}
 	}
