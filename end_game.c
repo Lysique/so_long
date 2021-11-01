@@ -6,7 +6,7 @@
 /*   By: tamighi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 12:34:24 by tamighi           #+#    #+#             */
-/*   Updated: 2021/10/31 18:04:01 by tamighi          ###   ########.fr       */
+/*   Updated: 2021/11/01 10:29:15 by tamighi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	ennemy_attack(t_utils *utils, t_ennemy *ennemy)
 
 void	defeat_end(t_utils *utils)
 {
-	int			i;
-	int			x;
+	int	i;
+	int	x;
 
 	i = 0;
 	x = 0;
@@ -60,8 +60,8 @@ void	defeat_end(t_utils *utils)
 	while (i < number_of_ennemies(utils->map))
 	{
 		put_bg(utils->ennemy[i].pos, utils);
-		if (ennemy_breakpoint(utils, utils->ennemy[i].pos, utils->to)
-			&& !x++ && !utils->dead)
+		if (!utils->dead && ennemy_breakpoint
+			(utils, utils->ennemy[i].pos, utils->to) && !x++)
 			ennemy_attack(utils, &utils->ennemy[i]);
 		else
 			update_ennemy_pose(utils, utils->ennemy[i], utils->sprites[6]);
