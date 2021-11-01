@@ -6,26 +6,31 @@
 /*   By: tamighi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 14:17:43 by tamighi           #+#    #+#             */
-/*   Updated: 2021/10/13 08:45:56 by tamighi          ###   ########.fr       */
+/*   Updated: 2021/10/31 15:22:42 by tamighi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	check_valid_destination(t_utils *utils)
+void	key_update(t_utils *utils)
 {
-	if (utils->map[utils->to.j][utils->to.i] == '1')
-		return (0);
-	else if (utils->map[utils->to.j][utils->to.i] == 'E')
-	{
-		if (!get_element_pos(utils->map, 'C').i)
-		{
-			utils->statut = 3;
-			utils->frame_loop = 0;
-			return (1);
-		}
-	}
-	return (1);
+	t_mlx	*mlx;
+
+	mlx = utils->mlx;
+	utils->side = side_update(utils->pos, utils->to, utils->side);
+	utils->sprite_loop = 0;
+	utils->step++;
+	put_nb_step(utils->step, utils);
+	if (utils->statut == 0)
+		utils->statut = 1;
+	if (utils->map[utils->to.j][utils->to.i] == 'E')
+		utils->map[utils->to.j][utils->to.i] = 'X';
+	else
+		utils->map[utils->to.j][utils->to.i] = 'P';
+	if (utils->map[utils->pos.j][utils->pos.i] == 'X')
+		utils->map[utils->pos.j][utils->pos.i] = 'E';
+	else
+		utils->map[utils->pos.j][utils->pos.i] = '0';
 }
 
 int	key_hook(int key, void *arg)
@@ -47,7 +52,7 @@ int	key_hook(int key, void *arg)
 		utils->to.j += 1;
 	else
 		utils->to.j -= 1;
-	if (!check_valid_destination(utils))
+	if (utils->map[utils->to.j][utils->to.i] == '1')
 	{
 		utils->to = utils->pos;
 		return (0);

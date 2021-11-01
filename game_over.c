@@ -6,7 +6,7 @@
 /*   By: tamighi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:28:14 by tamighi           #+#    #+#             */
-/*   Updated: 2021/10/13 10:26:18 by tamighi          ###   ########.fr       */
+/*   Updated: 2021/10/30 16:28:15 by tamighi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	end_time_out(t_utils *utils)
 {
-	static int	x = 20000;
-
-	if (utils->frame_loop % x == 0)
+	if (utils->frame_loop % 20000 == 0)
 		close_game(utils);
 }
 
@@ -67,7 +65,7 @@ void	game_over(t_utils *utils)
 				attack_scene(utils, &utils->ennemy[i]);
 			else
 			{
-				enypos(utils, utils->ennemy[i], utils->sprites[5]);
+				update_ennemy_pose(utils, utils->ennemy[i], utils->sprites[5]);
 				utils->ennemy[i].sprite_loop++;
 			}
 			if (utils->ennemy[i].sprite_loop == 6)

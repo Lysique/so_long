@@ -1,16 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   ber_to_tab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tamighi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/29 12:48:33 by tamighi           #+#    #+#             */
-/*   Updated: 2021/10/13 10:17:13 by tamighi          ###   ########.fr       */
+/*   Created: 2021/10/29 10:18:16 by tamighi           #+#    #+#             */
+/*   Updated: 2021/10/31 17:44:26 by tamighi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+char	*ft_stradd(char *map, char *buf)
+{
+	int		i;
+	char	*c;
+
+	i = 0;
+	while (map && map[i])
+		i++;
+	c = (char *)malloc(i + 2);
+	if (!c)
+		return (free_my_string(map));
+	i = 0;
+	while (map && map[i])
+	{
+		c[i] = map[i];
+		i++;
+	}
+	c[i++] = buf[0];
+	c[i] = '\0';
+	free_my_string(map);
+	return (c);
+}
 
 int	nb_lines(char *map)
 {
@@ -32,18 +55,17 @@ char	**ft_alloc(char **tab, char *map)
 	int	i;
 	int	j;
 
-	i = 0;
-	j = 0;
 	if (!tab)
 		return (0);
+	i = 0;
+	j = 0;
 	while (map[i] != '\n')
 		i++;
 	while (j < nb_lines(map))
 	{
 		tab[j] = (char *)malloc(i + 1);
-		if (!tab[j])
+		if (!tab[j++])
 			return (free_my_tab(tab));
-		j++;
 	}
 	return (tab);
 }
@@ -51,9 +73,9 @@ char	**ft_alloc(char **tab, char *map)
 char	**get_tab(char *map)
 {
 	int		i;
-	char	**tab;
 	int		j;
 	int		x;
+	char	**tab;
 
 	i = 0;
 	j = 0;
@@ -61,7 +83,7 @@ char	**get_tab(char *map)
 	tab = (char **)malloc(sizeof(char *) * nb_lines(map) + 1);
 	tab = ft_alloc(tab, map);
 	if (!tab)
-		return (0);
+		return ((char **)free_my_string(map));
 	tab[nb_lines(map)] = 0;
 	while (map[i])
 	{
@@ -73,30 +95,8 @@ char	**get_tab(char *map)
 		else
 			tab[x][j++] = map[i++];
 	}
+	free_my_string(map);
 	return (tab);
-}
-
-char	*ft_stradd(char *str, char *to_add)
-{
-	int		i;
-	char	*c;
-
-	i = 0;
-	c = (char *)malloc(ft_strlen(str) + 2);
-	if (!c)
-	{
-		free(str);
-		return (0);
-	}
-	while (str[i])
-	{
-		c[i] = str[i];
-		i++;
-	}
-	free(str);
-	c[i++] = to_add[0];
-	c[i] = '\0';
-	return (c);
 }
 
 char	**ber_to_tab(char *c)
@@ -105,24 +105,19 @@ char	**ber_to_tab(char *c)
 	int		ret;
 	char	buf[1];
 	char	*map;
-	char	**tab;
 
 	fd = check_ber(c);
-	ret = read(fd, buf, 1);
-	if (fd < 1 || ret == -1)
+	if (fd == -1)
 		return (0);
-	map = (char *)malloc(1);
-	if (!map)
-		return (0);
-	map[0] = '\0';
+	ret = 1;
+	map = 0;
 	while (ret == 1)
 	{
-		map = ft_stradd(map, buf);
-		if (!map)
-			return (0);
 		ret = read(fd, buf, 1);
+		if (ret == -1 || fd < 1)
+			return (0);
+		if (ret)
+			map = ft_stradd(map, buf);
 	}
-	tab = get_tab(map);
-	free(map);
-	return (tab);
+	return (get_tab(map));
 }

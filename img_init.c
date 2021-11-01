@@ -6,7 +6,7 @@
 /*   By: tamighi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 15:48:29 by tamighi           #+#    #+#             */
-/*   Updated: 2021/10/12 10:52:48 by tamighi          ###   ########.fr       */
+/*   Updated: 2021/10/31 16:53:01 by tamighi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ t_img	*img_init(t_mlx *mlx, char *object, int nImg)
 		return (0);
 	sprites = (t_img *)malloc(sizeof(t_img) * nImg + 1);
 	if (!sprites)
-		return ((t_img *)*free_my_tab(file_tab));
+	{
+		free_my_tab(file_tab);
+		return (0);
+	}
 	while (i < nImg)
 	{
 		sprites[i] = do_img(file_tab[i], mlx);

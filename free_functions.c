@@ -6,11 +6,18 @@
 /*   By: tamighi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 16:15:57 by tamighi           #+#    #+#             */
-/*   Updated: 2021/10/12 15:55:40 by tamighi          ###   ########.fr       */
+/*   Updated: 2021/10/31 17:47:24 by tamighi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+char	*free_my_string(char *c)
+{
+	if (c)
+		free(c);
+	return (0);
+}
 
 t_img	**free_my_sprites(t_img **sprites, t_mlx *mlx, int x)
 {
@@ -47,6 +54,7 @@ char	**free_my_tab(char **tab)
 		free(tab[i]);
 		i++;
 	}
+	free(tab);
 	return (0);
 }
 
@@ -56,10 +64,13 @@ int	free_my_struct(t_img *img)
 	return (0);
 }
 
-void	free_my_utils(t_utils *utils)
+t_utils	*free_my_utils(t_utils *utils)
 {
 	if (utils->ennemy)
 		free(utils->ennemy);
 	free_my_tab(utils->map);
-	free_my_sprites(utils->sprites, utils->mlx, 9);
+	if (utils->sprites)
+		free_my_sprites(utils->sprites, utils->mlx, 9);
+	free(utils);
+	return (0);
 }

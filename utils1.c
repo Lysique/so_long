@@ -6,20 +6,30 @@
 /*   By: tamighi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:22:50 by tamighi           #+#    #+#             */
-/*   Updated: 2021/10/13 08:50:29 by tamighi          ###   ########.fr       */
+/*   Updated: 2021/10/31 15:00:39 by tamighi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	ennemy_side_update(t_ennemyInstance ennemy)
+int	ft_strlen(char *c)
 {
-	if (ennemy.pos.i < ennemy.to.i)
+	int	i;
+
+	i = 0;
+	while (c[i])
+		i++;
+	return (i);
+}
+
+int	side_update(t_pos from, t_pos to, int side)
+{
+	if (from.i < to.i)
 		return (0);
-	else if (ennemy.pos.i > ennemy.to.i)
+	else if (from.i > to.i)
 		return (1);
 	else
-		return (ennemy.side);
+		return (side);
 }
 
 void	string_to_window(t_utils *utils, char *string)
@@ -70,14 +80,4 @@ int	map_length(char **map, char axis)
 		j++;
 	}
 	return (j * 64);
-}
-
-int	ft_strlen(char *c)
-{
-	int	i;
-
-	i = 0;
-	while (c[i])
-		i++;
-	return (i);
 }

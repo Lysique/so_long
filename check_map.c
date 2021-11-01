@@ -6,11 +6,40 @@
 /*   By: tamighi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 10:33:54 by tamighi           #+#    #+#             */
-/*   Updated: 2021/10/13 10:17:49 by tamighi          ###   ########.fr       */
+/*   Updated: 2021/11/01 10:09:36 by tamighi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+int	error_return(void)
+{
+	printf("Error.\nBad map file and/or values.\n");
+	return (0);
+}
+
+int	check_ber(char *c)
+{
+	int	fd;
+	int	i;
+
+	i = 0;
+	while (c[i])
+		i++;
+	if (i < 5)
+		return (-1);
+	i -= 4;
+	if (c[i++] != '.')
+		return (-1);
+	else if (c[i++] != 'b')
+		return (-1);
+	else if (c[i++] != 'e')
+		return (-1);
+	else if (c[i] != 'r')
+		return (-1);
+	fd = open(c, O_RDONLY);
+	return (fd);
+}
 
 int	check_values(char **map, int e, int p, int c)
 {
@@ -72,17 +101,17 @@ int	check_map(char **map)
 	i = 0;
 	j = 0;
 	if (!map || !check_values(map, 0, 0, 0) || !check_length(map))
-	{
-		printf("Error\nBad map file and/or values\n");
-		return (0);
-	}
+		return (error_return());
 	while (map[j])
 	{
 		if (i == 0 || j == 0 || !map[j][i + 1] || !(map[j + 1]))
 		{
 			if (map[j][i] != '1')
-				return (0);
+				return (error_return());
 		}
+		if (map[j][i] != 'C' && map[j][i] != '1' && map[j][i] != '0'
+				&& map[j][i] != 'I' && map[j][i] != 'E' && map[j][i] != 'P')
+			return (error_return());
 		i++;
 		if (!map[j][i])
 		{
