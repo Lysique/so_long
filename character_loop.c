@@ -6,7 +6,7 @@
 /*   By: tamighi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 12:19:54 by tamighi           #+#    #+#             */
-/*   Updated: 2021/10/31 18:03:43 by tamighi          ###   ########.fr       */
+/*   Updated: 2021/11/01 12:45:29 by tamighi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	player_run(t_utils *utils)
 			put_bg(utils->pos, utils);
 			utils->pos = utils->to;
 			utils->statut = 0;
+			player_breakpoint(utils);
 		}
 	}
 }
